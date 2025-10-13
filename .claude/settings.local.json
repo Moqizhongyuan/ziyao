@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(mkdir:*)",
+      "Read(//d/workspace/**)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(tree:*)",
+      "WebFetch(domain:www.agent3.com)",
+      "Read(//c/Users/20722/Pictures/联想截图/**)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nchore: 初始化 Next.js 15 项目并添加基础组件\n\n- 使用 create-next-app 初始化项目（TypeScript + Tailwind + App Router）\n- 创建 ImageCard 组件（语义化图文卡片）\n- 创建 Navbar 组件（仿 Agent3 Group 导航栏设计）\n- 添加全局类型声明文件（CSS/图片资源）\n- 更新 tsconfig.json 包含自定义类型声明\n- 集成 Navbar 到根布局\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
