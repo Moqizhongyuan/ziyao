@@ -11,7 +11,9 @@
       "Read(//c/Users/20722/Pictures/联想截图/**)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nchore: 初始化 Next.js 15 项目并添加基础组件\n\n- 使用 create-next-app 初始化项目（TypeScript + Tailwind + App Router）\n- 创建 ImageCard 组件（语义化图文卡片）\n- 创建 Navbar 组件（仿 Agent3 Group 导航栏设计）\n- 添加全局类型声明文件（CSS/图片资源）\n- 更新 tsconfig.json 包含自定义类型声明\n- 集成 Navbar 到根布局\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nchore: 初始化 Next.js 15 项目并添加基础组件\n\n- 使用 create-next-app 初始化项目（TypeScript + Tailwind + App Router）\n- 创建 ImageCard 组件（语义化图文卡片）\n- 创建 Navbar 组件（仿 Agent3 Group 导航栏设计）\n- 添加全局类型声明文件（CSS/图片资源）\n- 更新 tsconfig.json 包含自定义类型声明\n- 集成 Navbar 到根布局\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(npm install:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nperf: 优化 Navbar 组件性能并更新全局样式\n\n- 使用 useCallback 优化事件处理函数（toggleDrawer, closeDrawer）\n- 提取所有静态样式对象到组件外部，避免每次渲染创建新对象\n- 使用 useMemo 优化菜单项数据构建\n- 将字体更换为 Manrope（layout.tsx 和 globals.css）\n- 添加自定义 Tailwind 断点（tablet: 860px, laptop: 1200px）\n- 使用 Ant Design Menu 和 Drawer 组件替换原生实现\n- 添加 AntdRegistry 用于服务端渲染样式\n- 响应式断点从 md 改为 tablet（860px）\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

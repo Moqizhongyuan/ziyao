@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import Link from "next/link";
+import { Menu, Button, Drawer } from "antd";
+import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
 import Logo from "./Logo";
 
 /**
@@ -35,112 +38,132 @@ const defaultLinks: NavLink[] = [
   { label: "Resources", href: "/resources" },
 ];
 
+// 静态样式对象 - 避免每次渲染创建新对象
+const MENU_STYLE = { borderBottom: 0, minWidth: "470px" } as const;
+const MENU_ITEM_STYLE = { paddingLeft: "20px", paddingRight: "20px" } as const;
+const CTA_BUTTON_STYLE = {
+  backgroundColor: "#E43E30",
+  height: "40px",
+  width: "112px",
+  fontWeight: 800,
+} as const;
+const DRAWER_STYLES = {
+  header: { display: "none" },
+} as const;
+const DRAWER_BUTTON_STYLE = {
+  backgroundColor: "#E94B35",
+  borderRadius: "24px",
+  height: "48px",
+} as const;
+
 /**
- * Navbar - 顶部导航栏组件
+ * Navbar - 顶部导航栏组件 (使用 Ant Design)
  *
  * 仿照 Agent3 Group 网站设计
  * 包含左侧 Logo、中间导航菜单、右侧 CTA 按钮
- * 支持响应式移动端汉堡菜单
+ * 支持响应式移动端 Drawer 菜单
  */
 export default function Navbar({
   links = defaultLinks,
   ctaText = "Contact us",
   ctaHref = "/contact",
 }: NavbarProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
+  // 优化：使用 useCallback 避免重复创建函数
+  const toggleDrawer = useCallback(() => {
+    setDrawerVisible((prev) => !prev);
+  }, []);
+
+  const closeDrawer = useCallback(() => {
+    setDrawerVisible(false);
+  }, []);
+
+  // 构建 Menu 数据 - 使用静态样式对象
+  const menuItems: MenuProps["items"] = useMemo(
+    () =>
+      links.map((link) => ({
+        key: link.href,
+        label: (
+          <Link href={link.href} className="text-gray-700 hover:text-gray-900">
+            {link.label}
+          </Link>
+        ),
+        style: MENU_ITEM_STYLE,
+        href: link.href,
+      })),
+    [links]
+  );
 
   return (
-    <nav className="bg-white border-b border-gray-100" role="navigation">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* 左侧 Logo */}
-          <div className="flex-shrink-0">
-            <Logo />
-          </div>
+    <nav className="bg-white" role="navigation">
+      <div className="px-3 flex items-center justify-between h-[70px]">
+        {/* 左侧 Logo */}
+        <div className="flex-shrink-0">
+          <Logo />
+        </div>
 
-          {/* 桌面端：中间导航链接 */}
-          <div className="hidden md:flex items-center space-x-8">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-gray-700 hover:text-gray-900 text-base font-medium transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+        <div className="hidden tablet:flex flex-1 items-center">
+          {/* 桌面端：中间导航菜单 */}
+          <Menu
+            mode="horizontal"
+            className="flex-1"
+            style={MENU_STYLE}
+            items={menuItems}
+          />
 
           {/* 右侧：CTA 按钮（桌面端） */}
-          <div className="hidden md:block">
-            <Link
-              href={ctaHref}
-              className="inline-block px-6 py-3 bg-[#E94B35] text-white font-medium rounded-full hover:bg-[#d43d28] transition-colors"
-            >
-              {ctaText}
-            </Link>
-          </div>
+          <Button
+            type="primary"
+            shape="round"
+            href={ctaHref}
+            style={CTA_BUTTON_STYLE}
+            className="text-sm font-extrabold"
+          >
+            {ctaText}
+          </Button>
+        </div>
 
-          {/* 移动端：汉堡菜单按钮 */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#E94B35]"
-              aria-expanded={isMobileMenuOpen}
-              aria-label="主菜单"
-            >
-              {/* 汉堡图标 */}
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
+        {/* 移动端：汉堡菜单按钮 */}
+        <div className="tablet:hidden">
+          <Button
+            type="text"
+            icon={drawerVisible ? <CloseOutlined /> : <MenuOutlined />}
+            onClick={toggleDrawer}
+            size="large"
+            aria-label="主菜单"
+          />
         </div>
       </div>
 
-      {/* 移动端菜单 */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-100">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href={ctaHref}
-              className="block px-3 py-2 mt-4 text-center bg-[#E94B35] text-white font-medium rounded-full hover:bg-[#d43d28]"
-              onClick={() => setIsMobileMenuOpen(false)}
+      {/* 移动端 Drawer 菜单 */}
+      <Drawer
+        placement="bottom"
+        onClose={closeDrawer}
+        open={drawerVisible}
+        mask={false}
+        height="calc(100vh - 70px)"
+        styles={DRAWER_STYLES}
+      >
+        <Menu
+          mode="vertical"
+          items={menuItems}
+          className="border-0"
+          onClick={closeDrawer}
+        />
+        <div className="mt-4 px-4">
+          <Link href={ctaHref} onClick={closeDrawer}>
+            <Button
+              type="primary"
+              block
+              size="large"
+              style={DRAWER_BUTTON_STYLE}
             >
               {ctaText}
-            </Link>
-          </div>
+            </Button>
+          </Link>
         </div>
-      )}
+      </Drawer>
     </nav>
   );
 }
