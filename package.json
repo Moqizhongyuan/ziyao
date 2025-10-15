@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.24.0",
+    "@ant-design/icons": "^6.1.0",
     "antd": "^5.27.4",
     "clsx": "^2.1.1",
     "lodash": "^4.17.21",
