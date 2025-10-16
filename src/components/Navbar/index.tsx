@@ -53,9 +53,9 @@ export default function Navbar({
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
 
-  // 检测屏幕尺寸（tablet 断点 860px）
+  // 检测屏幕尺寸（tablet 断点 990px）
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 860px)");
+    const mediaQuery = window.matchMedia("(min-width: 990px)");
 
     const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
       setIsTablet(e.matches);

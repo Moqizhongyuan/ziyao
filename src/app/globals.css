@@ -13,7 +13,7 @@
   /* 响应式断点 - 包含默认断点 + 自定义断点 */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
-  --breakpoint-tablet: 860px;
+  --breakpoint-tablet: 990px;
   --breakpoint-lg: 1024px;
   --breakpoint-laptop: 1200px;
   --breakpoint-xl: 1280px;
